@@ -6,6 +6,8 @@
 <style>
 @import url('https://fonts.cdnfonts.com/css/pixelcraft-2');
 
+
+
 body {
 margin: 0;
 height: 100vh;
@@ -50,7 +52,7 @@ h1 {
     CloudCraft
 </h1>
 <nav>
-    <a href="index.html">Weather</a>
+    <a href="weatherwebsite.html">Weather</a>
     <a href="games.html">Games</a>
     <a href="merch.html">Merch</a>
     <a href="about.html">About</a>
@@ -62,27 +64,27 @@ h1 {
 <div class="box">
     <h2>Temperature</h2>
     <p id="temp">--°C</p>
+    <p id="faran">--°F</p>
 </div>
 <div class="box">
     <h2>Humidity</h2>
     <p id="humi">--%</p>
 </div>
 
+
 <canvas id="chart1" width="500" height="250"></canvas>
 
-<p>Status: <span id="status">Loading...</span></p>
-<p>Last Updated: <span id="lastupdate"></span> at <span id="lastuptime"></span></p>
+<p>Last Updated: <span id="lastupdate"></span><span id="lastuptime"></span></p>
 
 <script>
-const user = 'Admin'
-const APIURL = 'https://server-api--NileshTak1.replit.app/data'
-
+const user= 'Admin'
+const APIURL = 'https://weatherexcelbackend.onrender.com'
 const temp = document.getElementById('temp');
+const faranh = document.getElementById('faran');
 const humi = document.getElementById('humi');
 const status = document.getElementById('status');
-const lastupdatedate = document.getElementById('lastupdate');
-const lastupdatetime = document.getElementById('lastuptime');
-
+const lastupdate = document.getElementById('lastup');
+  
 let chart ;
 let datalabel = [];
 let tempdata = [];
@@ -92,25 +94,28 @@ async function updatechart() {
     
 }
 
+function changectof(celsius){
+   return (celsius * 9/5) + 32;
+}
+
 async function getdata() {
       try {
          const res = await fetch(APIURL);
          const data = await res.json();
-         console.log('Received data:', data);
          
          temp.textContent = data.temperature + " °C";
          humi.textContent = data.humidity + " %";
          status.textContent = 'Connected';
-         lastupdatedate.textContent = new Date().toLocaleDateString();
-         lastupdatetime.textContent = new Date().toLocaleTimeString();
+         lastupdatedate.textContent = new Date().toLocaleDateString
+         lastupdatetime.textContent =  new Date().toLocaleTimeString
       }catch (err){
-         console.error('Error:', err);
-         status.textContent = 'Disconnected';
+         status.textContent = 'Disconnected'
       }
   }
 
   getdata();
   setInterval(getdata, 30000)
+
 </script>
 
 </body>
