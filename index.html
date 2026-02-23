@@ -6,8 +6,6 @@
 <style>
 @import url('https://fonts.cdnfonts.com/css/pixelcraft-2');
 
-
-
 body {
 margin: 0;
 height: 100vh;
@@ -63,25 +61,28 @@ h1 {
 
 <div class="box">
     <h2>Temperature</h2>
-    <p>62°F</p>
+    <p id="temp">--°C</p>
 </div>
 <div class="box">
     <h2>Humidity</h2>
-    <p>26%</p>
+    <p id="humi">--%</p>
 </div>
 
 <canvas id="chart1" width="500" height="250"></canvas>
 
-<p>Last Updated: <span id="lastupdate"></span><span id="lastuptime"></span></p>
+<p>Status: <span id="status">Loading...</span></p>
+<p>Last Updated: <span id="lastupdate"></span> at <span id="lastuptime"></span></p>
 
 <script>
-const user= 'Admin'
-const APIURL = 'https://weatherexcelbackend.onrender.com'
+const user = 'Admin'
+const APIURL = 'https://server-api--NileshTak1.replit.app/data'
+
 const temp = document.getElementById('temp');
 const humi = document.getElementById('humi');
 const status = document.getElementById('status');
-const lastupdate = document.getElementById('lastup');
-  
+const lastupdatedate = document.getElementById('lastupdate');
+const lastupdatetime = document.getElementById('lastuptime');
+
 let chart ;
 let datalabel = [];
 let tempdata = [];
@@ -91,29 +92,26 @@ async function updatechart() {
     
 }
 
-
 async function getdata() {
       try {
          const res = await fetch(APIURL);
          const data = await res.json();
+         console.log('Received data:', data);
          
          temp.textContent = data.temperature + " °C";
          humi.textContent = data.humidity + " %";
          status.textContent = 'Connected';
-         lastupdatedate.textContent = new Date().toLocaleDateString
-         lastupdatetime.textContent =  new Date().toLocaleTimeString
+         lastupdatedate.textContent = new Date().toLocaleDateString();
+         lastupdatetime.textContent = new Date().toLocaleTimeString();
       }catch (err){
-         status.textContent = 'Disconnected'
+         console.error('Error:', err);
+         status.textContent = 'Disconnected';
       }
   }
 
   getdata();
   setInterval(getdata, 30000)
-
 </script>
 
 </body>
 </html>
-
-
-
